@@ -1,0 +1,28 @@
+# Generated files
+*.pyc
+__pycache__/
+*.egg-info/
+dist/
+build/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Pipeline output (user-generated content)
+pipeline/
+
+# Logs
+*.log
+_log/

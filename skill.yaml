@@ -1,0 +1,74 @@
+name: tech-blog-writer
+description: 专业技术博客写作助手，支持知乎专栏风和论文风两种风格
+version: 1.0.0
+author: Your Name
+
+# Skill 入口
+entry: tech-blog-writer.py
+
+# 支持的命令
+commands:
+  - name: init
+    description: 创建新的 brief.yaml 模板
+    usage: /tech-blog-writer init --date YYYY-MM-DD --style [zhihu|paper]
+
+  - name: search
+    description: 查询真实落地案例
+    usage: /tech-blog-writer search "主题"
+
+  - name: run
+    description: 运行完整写作流程
+    usage: /tech-blog-writer run YYYY-MM-DD --style [zhihu|paper]
+
+  - name: validate
+    description: 验证文章质量
+    usage: /tech-blog-writer validate YYYY-MM-DD
+
+  - name: fetch
+    description: 抓取任意 URL 并解析为 LLM 可读的 markdown（支持普通网页）
+    usage: /tech-blog-writer fetch <URL> [-o output.md]
+
+  - name: fetch-html
+    description: 从本地 HTML 文件解析文章，适用于微信公众号等需要浏览器渲染的站点
+    usage: /tech-blog-writer fetch-html <html_file> <URL> [-o output.md]
+
+# 依赖
+dependencies:
+  - python: ">=3.10"
+  - pyyaml: ">=6.0"
+  - trafilatura: ">=2.0"   # HTML → markdown 解析，fetch/fetch-html 命令必需
+  - httpx: ">=0.27"        # HTTP 客户端，fetch 命令必需
+
+# 配置
+config:
+  # 默认风格
+  default_style: zhihu
+
+  # 目标字数
+  default_length: 2500
+
+  # 禁用词列表
+  banned_words:
+    - 首先
+    - 其次
+    - 再次
+    - 最后
+    - 综上所述
+    - 总而言之
+
+# 示例
+examples:
+  - command: /tech-blog-writer init --date 2026-05-19 --style paper
+    description: 创建论文风格的 brief.yaml
+
+  - command: /tech-blog-writer search "BERT在生产环境的应用"
+    description: 查询真实案例
+
+  - command: /tech-blog-writer run 2026-05-19 --style paper
+    description: 运行论文风格的写作流程
+
+  - command: /tech-blog-writer fetch https://example.com/article
+    description: 直接抓取普通网页并解析为 markdown
+
+  - command: /tech-blog-writer fetch-html /tmp/page.json "https://mp.weixin.qq.com/s/xxx" -o article.md
+    description: 微信公众号专用——先用 Chrome DevTools 拿 HTML，再解析为 markdown
